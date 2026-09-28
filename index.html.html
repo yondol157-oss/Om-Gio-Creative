@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Om Gio Creative Director — Ultimate AI Studio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#080C14',
+                        cardBg: '#0E1626',
+                        cardBorder: '#1A2942',
+                        accentPurple: '#7C3AED',
+                        accentIndigo: '#6366F1'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #080C14; color: #F8FAFC; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #080C14; }
+        ::-webkit-scrollbar-thumb { background: #1A2942; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #7C3AED; }
+        .glow-effect { box-shadow: 0 0 25px rgba(124, 58, 237, 0.25); }
+        .glow-btn { box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-purple-600 selection:text-white">
+
+    <!-- TOP HEADER -->
+    <header class="h-16 bg-[#0B111E]/90 backdrop-blur border-b border-[#1A2942] px-6 flex items-center justify-between sticky top-0 z-40">
+        <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-500 flex items-center justify-center font-bold text-white shadow-lg shadow-purple-500/30">
+                OG
+            </div>
+            <div>
+                <span class="text-[10px] font-bold text-purple-400 tracking-wider block uppercase">Om Gio</span>
+                <h1 class="text-xs font-extrabold tracking-tight text-white">CREATIVE DIRECTOR</h1>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <!-- HANYA MUNCUL JIKA ADMIN -->
+            <button id="apiKeyHeaderBtn" onclick="openApiKeyModal()" class="hidden px-3 py-1.5 text-xs font-medium bg-purple-950 hover:bg-purple-900 text-purple-200 rounded-lg border border-purple-800 transition items-center space-x-1.5">
+                <i class="fa-solid fa-key text-purple-400"></i>
+                <span>Admin API Key</span>
+            </button>
+
+            <div id="authHeaderWidget" class="flex items-center space-x-3 bg-slate-900/80 border border-slate-800 rounded-xl px-3 py-1.5">
+                <!-- Dynamic Auth Header -->
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN APP WRAPPER -->
+    <div class="flex-1 flex overflow-hidden">
+        
+        <!-- SIDEBAR -->
+        <aside id="sidebar" class="w-64 bg-[#0B111E] border-r border-[#1A2942] flex flex-col justify-between transition-all duration-300 z-30">
+            <div class="p-4 space-y-6 overflow-y-auto">
+                <div>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-3 block mb-2">Workspace</span>
+                    <nav class="space-y-1">
+                        <a href="#overview" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:bg-slate-800/60 transition group">
+                            <i class="fa-solid fa-house text-slate-400 group-hover:text-purple-400"></i>
+                            <span>Overview</span>
+                        </a>
+                        <a href="#references" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:bg-slate-800/60 transition group">
+                            <i class="fa-solid fa-images text-slate-400 group-hover:text-purple-400"></i>
+                            <span>References</span>
+                        </a>
+                        <a href="#creative-direction" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:bg-slate-800/60 transition group">
+                            <i class="fa-solid fa-compass text-slate-400 group-hover:text-purple-400"></i>
+                            <span>Creative Direction</span>
+                        </a>
+                        <a href="#creative-tools" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-medium text-purple-400 bg-purple-950/30 border border-purple-800/40 transition">
+                            <i class="fa-solid fa-wand-magic-sparkles text-purple-400"></i>
+                            <span>Creative Tools</span>
+                        </a>
+                        <a href="#production" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:bg-slate-800/60 transition group">
+                            <i class="fa-solid fa-clapperboard text-slate-400 group-hover:text-purple-400"></i>
+                            <span>Production</span>
+                        </a>
+                        <a href="#output" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:bg-slate-800/60 transition group">
+                            <i class="fa-solid fa-file-lines text-slate-400 group-hover:text-purple-400"></i>
+                            <span>Output</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- SIDEBAR FOOTER / USER STATUS -->
+            <div class="p-4 border-t border-[#1A2942] bg-[#080C14]">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center space-x-2">
+                        <span id="statusDot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                        <span id="statusText" class="text-[11px] font-semibold text-amber-400">MENUNGGU AKTIVASI</span>
+                    </div>
+                    <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-mono">V11.1</span>
+                </div>
+                
+                <div onclick="openProModal()" class="cursor-pointer bg-slate-900/90 hover:bg-slate-800/90 border border-slate-800 rounded-xl p-2.5 transition flex items-center space-x-3">
+                    <div id="sidebarUserAvatar" class="w-8 h-8 rounded-lg bg-gradient-to-tr from-slate-700 to-slate-800 flex items-center justify-center font-bold text-xs text-white">
+                        OG
+                    </div>
+                    <div class="overflow-hidden flex-1">
+                        <h4 id="sidebarUserName" class="text-xs font-bold text-white truncate">Tamu Om Gio</h4>
+                        <p id="sidebarUserEmail" class="text-[10px] text-slate-400 truncate">Klik untuk Aktifkan Pro</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN WORKSPACE -->
+        <main class="flex-1 overflow-y-auto bg-[#080C14] p-6 flex flex-col lg:flex-row gap-6">
+            
+            <!-- LEFT WORKSPACE COLUMN (Controls & Inputs) -->
+            <div class="flex-1 space-y-6">
+                
+                <!-- HEADER BANNER -->
+                <div class="bg-gradient-to-r from-[#0E1626] to-[#131C31] border border-[#1A2942] rounded-2xl p-6 relative overflow-hidden glow-effect">
+                    <span class="text-xs font-semibold uppercase tracking-widest text-purple-400 mb-1 block">AI Concept Intelligence</span>
+                    <h2 class="text-2xl lg:text-3xl font-extrabold text-white tracking-tight">Om Gio Creative Director</h2>
+                    <p class="text-xs text-slate-400 mt-1 max-w-xl">AI untuk Membuat Konsep Iklan & Konten Video dari reference, ide, storytelling, storyboard, hingga video-generation prompt.</p>
+                </div>
+
+                <!-- 01 BUILD YOUR CONCEPT (FILE UPLOADS) -->
+                <div class="bg-[#0E1626] border border-[#1A2942] rounded-2xl p-5 space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <span class="w-7 h-7 rounded-lg bg-purple-600/20 text-purple-400 border border-purple-500/30 flex items-center justify-center font-bold text-xs">01</span>
+                        <div>
+                            <h3 class="text-sm font-bold text-white">Build your concept</h3>
+                            <p class="text-[11px] text-slate-400">Reference → AI Vision → Creative Direction → Scene Blueprint</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div onclick="document.getElementById('productFileInput').click()" class="border-2 border-dashed border-slate-700/80 hover:border-purple-500/60 bg-slate-900/50 hover:bg-purple-950/10 rounded-xl p-5 text-center cursor-pointer transition flex flex-col items-center justify-center min-h-[140px] group">
+                            <input type="file" id="productFileInput" class="hidden" accept="image/*" onchange="handleFileUpload(event, 'product')">
+                            <div class="w-10 h-10 rounded-full bg-slate-800 group-hover:bg-purple-600/20 text-slate-400 group-hover:text-purple-400 flex items-center justify-center mb-2 transition">
+                                <i class="fa-solid fa-cloud-arrow-up text-sm"></i>
+                            </div>
+                            <h4 id="productFileLabel" class="text-xs font-semibold text-slate-200">Klik untuk memilih file atau seret foto produk ke sini</h4>
+                            <p class="text-[10px] text-slate-500 mt-1">JPG · PNG · WEBP · beberapa reference diperbolehkan</p>
+                        </div>
+
+                        <div onclick="document.getElementById('charFileInput').click()" class="border-2 border-dashed border-slate-700/80 hover:border-purple-500/60 bg-slate-900/50 hover:bg-purple-950/10 rounded-xl p-5 text-center cursor-pointer transition flex flex-col items-center justify-center min-h-[140px] group">
+                            <input type="file" id="charFileInput" class="hidden" accept="image/*" onchange="handleFileUpload(event, 'character')">
+                            <div class="w-10 h-10 rounded-full bg-slate-800 group-hover:bg-purple-600/20 text-slate-400 group-hover:text-purple-400 flex items-center justify-center mb-2 transition">
+                                <i class="fa-solid fa-user-shield text-sm"></i>
+                            </div>
+                            <h4 id="charFileLabel" class="text-xs font-semibold text-slate-200">Klik untuk memilih creator / character reference</h4>
+                            <p class="text-[10px] text-slate-500 mt-1">Wajah + outfit dikunci · bisa lebih dari 1 karakter</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODE IKLAN / KONTEN -->
+                <div class="bg-[#0E1626] border border-[#1A2942] rounded-2xl p-5 space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-purple-400">MODE IKLAN / KONTEN *</span>
+                        <div class="flex bg-slate-900 p-1 rounded-xl border border-slate-800">
+                            <button onclick="setMode('iklan')" id="modeIklanBtn" class="px-4 py-1.5 rounded-lg text-xs font-bold transition bg-purple-600 text-white shadow">Mode Iklan</button>
+                            <button onclick="setMode('konten')" id="modeKontenBtn" class="px-4 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white">Mode Konten</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1.5">
+                            <label id="modeTypeLabel" class="text-xs font-medium text-slate-300">Jenis Iklan * (137 format)</label>
+                            <select id="adTypeSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-purple-500">
+                                <option>Product Demo (High Conversion)</option>
+                                <option>Problem Solver / Pain Point</option>
+                                <option>Unboxing & ASMR Experience</option>
+                                <option>Testimonial & Social Proof</option>
+                                <option>Trendjacking & Viral Hook</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-medium text-slate-300">Aspect Ratio *</label>
+                            <select id="aspectRatioSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-purple-500">
+                                <option>9:16 Vertical (TikTok / Reels / Shorts)</option>
+                                <option>16:9 Horizontal (YouTube / TVC)</option>
+                                <option>1:1 Square (Instagram Feed)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-medium text-slate-300">Generate dengan *</label>
+                            <select id="generatorEngine" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-purple-500">
+                                <option>Omni1.1flash (Advanced Multi-format AI)</option>
+                                <option>All Generator Video (Veo3lite, Kling, HeyGen)</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-medium text-slate-300">Durasi Produksi *</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="setDuration(32)" id="dur32Btn" class="py-2 px-3 rounded-xl text-xs font-semibold border border-purple-500 bg-purple-950/40 text-white transition">32s · 4 video · 16 panel</button>
+                                <button onclick="setDuration(64)" id="dur64Btn" class="py-2 px-3 rounded-xl text-xs font-semibold border border-slate-800 bg-slate-900 text-slate-400 hover:text-white transition">64s · 8 video · 32 panel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CREATIVE TOOLS -->
+                <div class="bg-[#0E1626] border border-[#1A2942] rounded-2xl p-5 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-sm font-bold text-white uppercase tracking-wide">CREATIVE TOOLS</h3>
+                            <p class="text-[11px] text-slate-400">Shortcut ke engine utama — siap digunakan.</p>
+                        </div>
+                        <span class="text-[10px] bg-purple-950 text-purple-300 border border-purple-800 px-2 py-0.5 rounded font-bold">V11</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        <div class="bg-slate-900 border border-purple-500/40 rounded-xl p-3">
+                            <span class="text-xs font-bold text-white block mb-0.5">Hook</span>
+                            <span class="text-[10px] text-slate-400">siapkan hook</span>
+                        </div>
+                        <div class="bg-slate-900 border border-purple-500/40 rounded-xl p-3">
+                            <span class="text-xs font-bold text-white block mb-0.5">Product</span>
+                            <span class="text-[10px] text-slate-400">profil produk</span>
+                        </div>
+                        <div class="bg-slate-900 border border-purple-500/40 rounded-xl p-3">
+                            <span class="text-xs font-bold text-white block mb-0.5">Character</span>
+                            <span class="text-[10px] text-slate-400">lock karakter</span>
+                        </div>
+                        <div class="bg-slate-900 border border-purple-500/40 rounded-xl p-3">
+                            <span class="text-xs font-bold text-white block mb-0.5">Storyboard</span>
+                            <span class="text-[10px] text-slate-400">master 4:3</span>
+                        </div>
+                        <div class="bg-slate-900 border border-purple-500/40 rounded-xl p-3 col-span-2 md:col-span-1">
+                            <span class="text-xs font-bold text-white block mb-0.5">Video Package</span>
+                            <span class="text-[10px] text-slate-400">UGC production</span>
+                        </div>
+                    </div>
+
+                    <!-- ACTION BUTTONS -->
+                    <div class="pt-2 flex flex-wrap items-center gap-3">
+                        <button onclick="generatePackagePrompt()" class="flex-1 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 hover:opacity-95 text-white font-bold py-3 px-6 rounded-xl transition glow-btn flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span>+ GENERATE PACKAGE PROMPT</span>
+                        </button>
+                        <button onclick="copyAllPrompts()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-3 rounded-xl border border-slate-700 text-xs font-semibold transition">Copy</button>
+                        <button onclick="downloadPromptTxt()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-3 rounded-xl border border-slate-700 text-xs font-semibold transition">Download TXT</button>
+                        <button onclick="resetWorkspace()" class="bg-red-950/40 hover:bg-red-900/50 text-red-300 px-4 py-3 rounded-xl border border-red-900/50 text-xs font-semibold transition">Reset</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT WORKSPACE COLUMN (Outputs & Master Prompts) -->
+            <div class="w-full lg:w-[460px] space-y-6">
+                
+                <!-- LIVE OUTPUT PREVIEW BOX -->
+                <div class="bg-[#0E1626] border border-[#1A2942] rounded-2xl p-5 space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-6 h-6 rounded bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-bold text-[10px]">02</span>
+                            <span class="text-xs font-bold text-white">Om Gio Creative Director — Live Output Preview</span>
+                        </div>
+                        <span class="text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-2 py-0.5 rounded font-bold">READY</span>
+                    </div>
+
+                    <!-- PROMPT BOX 01 -->
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-300" id="promptTitleLabel">01 · MASTER STORYBOARD PROMPT — 4:3 — 32 SECONDS</span>
+                            <button onclick="copyToClipboard('storyboardOutput')" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[10px] border border-slate-700">Copy</button>
+                        </div>
+                        <div id="storyboardOutput" class="w-full h-32 bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-300 font-mono overflow-y-auto select-all">
+                            Master Storyboard 4:3 akan muncul di sini setelah Anda menekan tombol "+ GENERATE PACKAGE PROMPT"...
+                        </div>
+                    </div>
+
+                    <!-- PROMPT BOX 02 -->
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-300">02 · MASTER VIDEO GENERATION PROMPT — 32 SECONDS</span>
+                            <button onclick="copyToClipboard('videoPromptOutput')" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[10px] border border-slate-700">Copy</button>
+                        </div>
+                        <div id="videoPromptOutput" class="w-full h-32 bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-300 font-mono overflow-y-auto select-all">
+                            Master Video Generation Prompt lengkap untuk All Generator Video akan muncul di sini...
+                        </div>
+                    </div>
+
+                    <!-- SOCIAL PACKAGE -->
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-300">03 · SOCIAL MEDIA CONTENT PACKAGE</span>
+                            <button onclick="copyToClipboard('socialOutput')" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[10px] border border-slate-700">Copy</button>
+                        </div>
+                        <div id="socialOutput" class="w-full h-20 bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-300 font-mono overflow-y-auto select-all">
+                            Social Media Content Package akan muncul di sini...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARA MENGGUNAKAN MASTER VIDEO PROMPT + REFERENSI ASET (PALING BAWAH) -->
+                <div class="bg-[#0E1626] border border-[#1A2942] rounded-2xl p-5 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-xs font-bold text-white uppercase tracking-wider">CARA MENGGUNAKAN MASTER VIDEO PROMPT + REFERENSI ASET</h4>
+                        <button onclick="copyInstructionBox()" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] rounded border border-slate-700 font-semibold">Copy Cara</button>
+                    </div>
+                    <p class="text-[11px] text-slate-400 leading-relaxed" id="instructionBoxText">
+                        Master Video Generation Prompt adalah satu-satunya output video dan siap ditempel ke Google Flow Agent / All Generator Video. Mode Iklan memakai creator.png + product.jpg. Mode Konten memakai creator_01.png, creator_02.png, dan asset creator lain sesuai Character / Actor Asset Map. 32s = 4 video/shot + 16 storyboard panels; 64s = 8 video/shot + 32 storyboard panels.<br><br>
+                        1. <strong>Siapkan referensi:</strong> creator.png + product.jpg.<br>
+                        2. <strong>Masukkan referensi ke sesi All Generator Video:</strong> upload semua creator asset yang dipakai + product.jpg.<br>
+                        3. <strong>Gunakan asset tag yang konsisten:</strong> creator.png + product.jpg.<br>
+                        4. <strong>Tempel MASTER VIDEO GENERATION PROMPT</strong> dari kotak 02. Prompt sudah membawa Scene Blueprint, urutan panel, continuity, identity lock dan instruksi generate semua video.<br>
+                        5. <strong>Generate langsung:</strong> tidak ada approval gate. 32s menghasilkan tepat 4 video terhubung; 64s menghasilkan tepat 8 video terhubung. Setiap video = 8 detik dan 4 beat × 2 detik.<br>
+                        6. <strong>Jangan menambahkan storyboard sebagai asset ketiga.</strong> Storyboard adalah output visual/reference; eksekusi video mengikuti Scene Blueprint yang sudah tertanam di Master Video Prompt.<br><br>
+                        <em>Reference setup:</em> creator.png + product.jpg → upload ke sesi All Generator Video yang sama → paste Master Video Generation Prompt → generate all videos.
+                    </p>
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+
+    <!-- LIFETIME PRO MODAL -->
+    <div id="proModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-[#0E1626] border border-purple-500/40 rounded-3xl max-w-lg w-full p-6 relative shadow-2xl glow-effect space-y-6">
+            <button onclick="closeProModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center space-y-2">
+                <span class="inline-block px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest bg-purple-950 text-purple-300 border border-purple-800">
+                    <i class="fa-solid fa-crown mr-1"></i> LIFETIME PRO
+                </span>
+                <h3 id="proModalTitle" class="text-xl font-extrabold text-white">Status: Menunggu Aktivasi</h3>
+                <p id="proModalSubtitle" class="text-xs text-slate-400">Masukkan email akun Google yang Anda cantumkan di catatan pembelian Lynk.id untuk langsung mengaktifkan akses penuh tanpa batas.</p>
+            </div>
+
+            <!-- EMAIL LYNK.ID REDEEM INPUT BOX -->
+            <div id="redeemSection" class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 space-y-3">
+                <label class="text-xs font-semibold text-slate-200 block">Email Pembelian Lynk.id / Akun Google:</label>
+                <div class="flex space-x-2">
+                    <input type="email" id="lynkEmailInput" placeholder="contoh: emailkamu@gmail.com" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-purple-500">
+                    <button onclick="redeemLynkEmail()" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:opacity-95 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition shadow">
+                        Aktivasi Otomatis
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-500">Gunakan email khusus admin (misal: <strong>admin@omgio.com</strong>) untuk login sebagai Admin.</p>
+            </div>
+
+            <!-- BENEFITS CHECKLIST -->
+            <div id="proFeaturesList" class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 space-y-2.5 text-xs text-slate-300">
+                <div class="flex items-center space-x-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i><span>Akses 137 Format Iklan & Konten Video Viral</span></div>
+                <div class="flex items-center space-x-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i><span>AI Multimodal Vision (Analisis Foto Produk & Pemeran)</span></div>
+                <div class="flex items-center space-x-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i><span>Master Storyboard 4:3 (16 Panel 32s / 32 Panel 64s)</span></div>
+                <div class="flex items-center space-x-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i><span>Master Video Prompt untuk Veo, Kling, HeyGen, Sora</span></div>
+                <div class="flex items-center space-x-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i><span>Social Content Package untuk 7 Platform Sekaligus</span></div>
+            </div>
+
+            <div class="space-y-2.5 pt-2">
+                <button onclick="simulateGoogleLogin()" class="w-full bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-semibold py-3 px-4 rounded-xl text-xs transition flex items-center justify-center space-x-2">
+                    <i class="fa-brands fa-google text-red-400"></i>
+                    <span id="googleLoginBtnText">Sudah membeli? Masuk dengan Google</span>
+                </button>
+            </div>
+
+            <div class="text-center pt-2">
+                <button onclick="closeProModal()" class="text-xs text-slate-500 hover:text-slate-300 underline">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- API KEY CONFIG MODAL (KHUSUS ADMIN) -->
+    <div id="apiKeyModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-[#0E1626] border border-purple-500/40 rounded-3xl max-w-md w-full p-6 relative space-y-4">
+            <button onclick="closeApiKeyModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            <div class="flex items-center space-x-2">
+                <span class="bg-purple-950 text-purple-300 text-[10px] px-2 py-0.5 rounded font-bold uppercase">Admin Only</span>
+                <h3 class="text-lg font-bold text-white">Konfigurasi Gemini API Key</h3>
+            </div>
+            <p class="text-xs text-slate-400">Menu ini disembunyikan dari pembeli. Masukkan Gemini API Key untuk sistem.</p>
+            <input type="password" id="apiKeyInput" placeholder="AIzaSy..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-purple-500">
+            <button onclick="saveApiKey()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2.5 rounded-xl text-xs transition">Simpan API Key Admin</button>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION TOAST -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 border border-purple-500 text-white px-4 py-3 rounded-2xl shadow-2xl text-xs z-50 transform translate-y-20 opacity-0 transition-all duration-300 flex items-center space-x-2">
+        <i class="fa-solid fa-circle-check text-purple-400"></i>
+        <span id="toastMsg">Berhasil!</span>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Konfigurasi Email Admin (Ganti dengan email admin Anda)
+        const ADMIN_EMAILS = ["admin@omgio.com", "omgio.official@gmail.com", "yondol157@gmail.com"];
+
+        let appState = {
+            isPro: false,
+            isAdmin: false,
+            userEmail: '',
+            userName: 'Tamu Om Gio',
+            productFile: null,
+            charFile: null,
+            mode: 'iklan',
+            duration: 32,
+            apiKey: ''
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedState = localStorage.getItem('omgio_state');
+            if (savedState) {
+                try {
+                    const parsed = JSON.parse(savedState);
+                    appState = {...appState, ...parsed};
+                } catch(e) {}
+            }
+            updateUI();
+        });
+
+        function saveState() {
+            localStorage.setItem('omgio_state', JSON.stringify(appState));
+        }
+
+        function updateUI() {
+            const statusDot = document.getElementById('statusDot');
+            const statusText = document.getElementById('statusText');
+            const sidebarUserName = document.getElementById('sidebarUserName');
+            const sidebarUserEmail = document.getElementById('sidebarUserEmail');
+            const sidebarUserAvatar = document.getElementById('sidebarUserAvatar');
+            const authHeaderWidget = document.getElementById('authHeaderWidget');
+            const proModalTitle = document.getElementById('proModalTitle');
+            const proModalSubtitle = document.getElementById('proModalSubtitle');
+            const redeemSection = document.getElementById('redeemSection');
+            const googleLoginBtnText = document.getElementById('googleLoginBtnText');
+            const apiKeyHeaderBtn = document.getElementById('apiKeyHeaderBtn');
+
+            // Cek apakah email termasuk Admin
+            if (appState.isPro && ADMIN_EMAILS.includes(appState.userEmail.toLowerCase())) {
+                appState.isAdmin = true;
+            } else {
+                appState.isAdmin = false;
+            }
+
+            // Tampilkan atau Sembunyikan Tombol API Key berdasarkan Role Admin
+            if (appState.isAdmin) {
+                apiKeyHeaderBtn.classList.remove('hidden');
+                apiKeyHeaderBtn.classList.add('flex');
+            } else {
+                apiKeyHeaderBtn.classList.remove('flex');
+                apiKeyHeaderBtn.classList.add('hidden');
+            }
+
+            if (appState.isPro) {
+                statusDot.className = "w-2 h-2 rounded-full bg-emerald-400";
+                statusText.className = "text-[11px] font-semibold text-emerald-400";
+                statusText.innerText = appState.isAdmin ? "ADMIN MASTER PRO" : "LIFETIME PRO AKTIF";
+                sidebarUserName.innerText = appState.userName + (appState.isAdmin ? " (Admin)" : "");
+                sidebarUserEmail.innerText = appState.userEmail;
+                sidebarUserAvatar.className = "w-8 h-8 rounded-lg bg-gradient-to-tr from-emerald-600 to-teal-600 flex items-center justify-center font-bold text-xs text-white shadow";
+                sidebarUserAvatar.innerHTML = '<i class="fa-solid fa-crown text-amber-300"></i>';
+                
+                proModalTitle.innerText = appState.isAdmin ? "Status: Admin Master Aktif" : "Status: Lifetime PRO Aktif";
+                proModalSubtitle.innerText = "Selamat! Anda memiliki akses penuh ke seluruh fitur dan sistem.";
+                redeemSection.style.display = 'none';
+                googleLoginBtnText.innerText = `Keluar Akun (${appState.userEmail})`;
+
+                authHeaderWidget.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <div class="w-7 h-7 rounded-lg bg-emerald-600 flex items-center justify-center text-white text-xs font-bold"><i class="fa-solid fa-crown text-amber-300 text-[10px]"></i></div>
+                        <div class="text-left hidden md:block">
+                            <span class="text-[10px] text-emerald-400 font-bold block leading-none">${appState.isAdmin ? 'ADMIN' : 'PRO ACTIVE'}</span>
+                            <span class="text-xs text-slate-200 font-semibold">${appState.userEmail}</span>
+                        </div>
+                        <button onclick="logoutAccount()" class="ml-2 text-xs text-slate-400 hover:text-red-400 px-2 py-1 bg-slate-800 rounded-lg transition" title="Keluar Akun">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </button>
+                    </div>
+                `;
+            } else {
+                statusDot.className = "w-2 h-2 rounded-full bg-amber-400 animate-pulse";
+                statusText.className = "text-[11px] font-semibold text-amber-400";
+                statusText.innerText = "MENUNGGU AKTIVASI";
+                sidebarUserName.innerText = "Tamu Om Gio";
+                sidebarUserEmail.innerText = "Klik untuk Aktifkan Pro";
+                sidebarUserAvatar.className = "w-8 h-8 rounded-lg bg-gradient-to-tr from-slate-700 to-slate-800 flex items-center justify-center font-bold text-xs text-white";
+                sidebarUserAvatar.innerText = "OG";
+
+                proModalTitle.innerText = "Status: Menunggu Aktivasi";
+                proModalSubtitle.innerText = "Masukkan email akun Google yang Anda cantumkan di catatan pembelian Lynk.id untuk langsung mengaktifkan akses penuh.";
+                redeemSection.style.display = 'block';
+                googleLoginBtnText.innerText = "Sudah membeli? Masuk dengan Google";
+
+                authHeaderWidget.innerHTML = `
+                    <button onclick="openProModal()" class="text-xs font-bold bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-lg shadow hover:opacity-95 transition">
+                        Aktivasi Pro
+                    </button>
+                `;
+            }
+        }
+
+        function redeemLynkEmail() {
+            const emailInput = document.getElementById('lynkEmailInput').value.trim();
+            if(!emailInput || !emailInput.includes('@')) {
+                showToast("Masukkan email valid yang terdaftar di catatan Lynk.id!");
+                return;
+            }
+            appState.isPro = true;
+            appState.userEmail = emailInput;
+            appState.userName = emailInput.split('@')[0].toUpperCase();
+            
+            // Cek apakah admin
+            if(ADMIN_EMAILS.includes(emailInput.toLowerCase())) {
+                appState.isAdmin = true;
+                showToast("Login Admin Berhasil! Menu API Key Terbuka.");
+            } else {
+                appState.isAdmin = false;
+                showToast("Lisensi Pro Berhasil Diaktifkan via Lynk.id!");
+            }
+
+            saveState();
+            updateUI();
+            closeProModal();
+        }
+
+        function simulateGoogleLogin() {
+            if (appState.isPro) {
+                if(confirm("Apakah Anda ingin keluar dari akun ini?")) {
+                    logoutAccount();
+                }
+                return;
+            }
+            const simulatedEmail = prompt("Simulasi Login Google: Masukkan email Google Anda (Gunakan email admin untuk akses API Key):", "admin@omgio.com");
+            if(simulatedEmail && simulatedEmail.includes('@')) {
+                appState.isPro = true;
+                appState.userEmail = simulatedEmail;
+                appState.userName = simulatedEmail.split('@')[0].toUpperCase();
+                
+                if(ADMIN_EMAILS.includes(simulatedEmail.toLowerCase())) {
+                    appState.isAdmin = true;
+                    showToast("Login Google sebagai Admin Berhasil!");
+                } else {
+                    appState.isAdmin = false;
+                    showToast("Login Google Pembeli Berhasil!");
+                }
+
+                saveState();
+                updateUI();
+                closeProModal();
+            }
+        }
+
+        function logoutAccount() {
+            appState.isPro = false;
+            appState.isAdmin = false;
+            appState.userEmail = '';
+            appState.userName = 'Tamu Om Gio';
+            saveState();
+            updateUI();
+            showToast("Berhasil keluar akun.");
+        }
+
+        function openProModal() { document.getElementById('proModal').classList.remove('hidden'); }
+        function closeProModal() { document.getElementById('proModal').classList.add('hidden'); }
+        
+        function openApiKeyModal() { 
+            if(!appState.isAdmin) {
+                alert("Akses Ditolak! Menu ini khusus untuk Admin.");
+                return;
+            }
+            document.getElementById('apiKeyModal').classList.remove('hidden'); 
+        }
+        function closeApiKeyModal() { document.getElementById('apiKeyModal').classList.add('hidden'); }
+
+        function saveApiKey() {
+            const key = document.getElementById('apiKeyInput').value.trim();
+            if(key) {
+                appState.apiKey = key;
+                saveState();
+                closeApiKeyModal();
+                showToast("Gemini API Key berhasil disimpan oleh Admin!");
+            }
+        }
+
+        function setMode(mode) {
+            appState.mode = mode;
+            const iklanBtn = document.getElementById('modeIklanBtn');
+            const kontenBtn = document.getElementById('modeKontenBtn');
+            const typeLabel = document.getElementById('modeTypeLabel');
+            const adTypeSelect = document.getElementById('adTypeSelect');
+
+            if(mode === 'iklan') {
+                iklanBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold transition bg-purple-600 text-white shadow";
+                kontenBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white";
+                typeLabel.innerText = "Jenis Iklan * (137 format)";
+                adTypeSelect.innerHTML = `
+                    <option>Product Demo (High Conversion)</option>
+                    <option>Problem Solver / Pain Point</option>
+                    <option>Unboxing & ASMR Experience</option>
+                    <option>Testimonial & Social Proof</option>
+                `;
+            } else {
+                kontenBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold transition bg-purple-600 text-white shadow";
+                iklanBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white";
+                typeLabel.innerText = "Format Konten *";
+                adTypeSelect.innerHTML = `
+                    <option>Character Assets + Nama/Pemeran + Topik + Hook + Story + Payoff</option>
+                    <option>Viral Educational Reels / TikTok Series</option>
+                `;
+            }
+        }
+
+        function setDuration(dur) {
+            appState.duration = dur;
+            const b32 = document.getElementById('dur32Btn');
+            const b64 = document.getElementById('dur64Btn');
+            const promptTitle = document.getElementById('promptTitleLabel');
+
+            if(dur === 32) {
+                b32.className = "py-2 px-3 rounded-xl text-xs font-semibold border border-purple-500 bg-purple-950/40 text-white transition";
+                b64.className = "py-2 px-3 rounded-xl text-xs font-semibold border border-slate-800 bg-slate-900 text-slate-400 hover:text-white transition";
+                promptTitle.innerText = "01 · MASTER STORYBOARD PROMPT — 4:3 — 32 SECONDS";
+            } else {
+                b64.className = "py-2 px-3 rounded-xl text-xs font-semibold border border-purple-500 bg-purple-950/40 text-white transition";
+                b32.className = "py-2 px-3 rounded-xl text-xs font-semibold border border-slate-800 bg-slate-900 text-slate-400 hover:text-white transition";
+                promptTitle.innerText = "01 · MASTER STORYBOARD PROMPT — 4:3 — 64 SECONDS";
+            }
+        }
+
+        function handleFileUpload(event, type) {
+            const file = event.target.files[0];
+            if(file) {
+                if(type === 'product') {
+                    appState.productFile = file.name;
+                    document.getElementById('productFileLabel').innerText = `Produk: ${file.name}`;
+                } else {
+                    appState.charFile = file.name;
+                    document.getElementById('charFileLabel').innerText = `Karakter: ${file.name}`;
+                }
+                showToast(`File ${file.name} berhasil dimuat!`);
+            }
+        }
+
+        function generatePackagePrompt() {
+            const adType = document.getElementById('adTypeSelect').value;
+            const ratio = document.getElementById('aspectRatioSelect').value;
+            const engine = document.getElementById('generatorEngine').value;
+            const prodAsset = appState.productFile || 'product.jpg';
+            const charAsset = appState.charFile || 'creator.png';
+
+            const storyboardText = `[OM GIO MASTER STORYBOARD 4:3 - ${appState.duration}S]
+Mode: ${appState.mode.toUpperCase()} | Format: ${adType}
+Ratio: ${ratio} | Engine: ${engine}
+Assets: ${charAsset} + ${prodAsset}
+
+PANEL 01 (00:00 - 00:08) [Hook Beat]:
+- Visual: ${charAsset} menatap langsung ke kamera dengan ekspresi hook emosional memegang ${prodAsset}.
+- Audio: "Pernah ngalamin masalah ini? Jangan skip video ini."
+
+PANEL 02 (00:08 - 00:16) [Problem & Agitation]:
+- Visual: Close-up detail ${prodAsset} menunjukkan tekstur dan keunggulan utama.
+
+PANEL 03 (00:16 - 00:24) [Solution & Demonstration]:
+- Visual: ${charAsset} mendemonstrasikan penggunaan ${prodAsset}.
+
+PANEL 04 (00:24 - 00:32) [CTA & Payoff]:
+- Visual: Call to action banner dan ${prodAsset}.`;
+
+            const videoPromptText = `[OM GIO MASTER VIDEO GENERATION PROMPT]
+--identity_lock: true
+--actor_asset: ${charAsset}
+--product_asset: ${prodAsset}
+--aspect_ratio: ${ratio}
+--duration: ${appState.duration}s
+--continuity_mode: strict`;
+
+            const socialText = `Caption:
+Temukan solusi terbaik bersama ${prodAsset}. ✨
+#OmGioCreative #ViralVideo #ProductDemo`;
+
+            document.getElementById('storyboardOutput').innerText = storyboardText;
+            document.getElementById('videoPromptOutput').innerText = videoPromptText;
+            document.getElementById('socialOutput').innerText = socialText;
+
+            showToast("Package Prompt Berhasil Digenerate!");
+        }
+
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text);
+            showToast("Berhasil disalin ke clipboard!");
+        }
+
+        function copyAllPrompts() {
+            generatePackagePrompt();
+            const allText = document.getElementById('storyboardOutput').innerText + "\n\n" + document.getElementById('videoPromptOutput').innerText;
+            navigator.clipboard.writeText(allText);
+            showToast("Semua Master Prompt disalin!");
+        }
+
+        function downloadPromptTxt() {
+            generatePackagePrompt();
+            const text = document.getElementById('storyboardOutput').innerText + "\n\n" + document.getElementById('videoPromptOutput').innerText;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'OmGio_Master_Prompt.txt';
+            a.click();
+            showToast("File TXT berhasil diunduh!");
+        }
+
+        function copyInstructionBox() {
+            const text = document.getElementById('instructionBoxText').innerText;
+            navigator.clipboard.writeText(text);
+            showToast("Panduan berhasil disalin!");
+        }
+
+        function resetWorkspace() {
+            if(confirm("Reset seluruh workspace ke pengaturan awal?")) {
+                appState.productFile = null;
+                appState.charFile = null;
+                document.getElementById('productFileLabel').innerText = "Klik untuk memilih file atau seret foto produk ke sini";
+                document.getElementById('charFileLabel').innerText = "Klik untuk memilih creator / character reference";
+                document.getElementById('storyboardOutput').innerText = "Master Storyboard 4:3 akan muncul di sini...";
+                document.getElementById('videoPromptOutput').innerText = "Master Video Generation Prompt lengkap akan muncul di sini...";
+                showToast("Workspace di-reset.");
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
